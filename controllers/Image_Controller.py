@@ -30,10 +30,12 @@ class ImageController:
             while True:
                 video_link: str = input(f"Shkruaj linkun e fotos: ")
                 video_name: str = input(f"Shkruaj emrin e fotos se si deshironi ta ruani: ")
+                resize_number: str = input(f"Shkruaj sa here deshironi ta zvogeloni foton: ")
                 if video_link and video_name:
                     tasks[task_index] = {
                         "url": video_link,
                         "name": video_name,
+                        "resize": resize_number,
                     }
                     task_index = task_index + 1
                     break

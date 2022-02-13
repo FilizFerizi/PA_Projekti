@@ -1,4 +1,4 @@
-from controllers.Video_Controller import VideoController
+from controllers.Image_Controller import ImageController
 from routes.IRoute import IRoute
 
 
@@ -6,10 +6,9 @@ class ImageRoutes(IRoute):
     _routes: {}
 
     def __init__(self, _root):
-        content_controller = VideoController()
+        content_controller = ImageController()
         self._routes = {
-            "Downloadoni Foto": _root.route_wrapper(content_controller.create_new, True),
-            "Zvogelo Foto": _root.route_wrapper(content_controller.create_new,  True),
+            "Downloadoni dhe zvogelo Foto": _root.route_wrapper(content_controller.create_new, True),
         }
 
     def get(self):
