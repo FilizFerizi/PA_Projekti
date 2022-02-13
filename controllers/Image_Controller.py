@@ -3,9 +3,6 @@ from time import sleep
 
 from tabulate import tabulate
 
-
-
-
 class ImageController:
     task_number = 0
 
@@ -47,5 +44,6 @@ class ImageController:
         print("Filloi marrja e fotove...")
         sleep(1)
 
+#TODO: shtohet foto
 
         print("Ruajtja e Fotove perfundoi.")

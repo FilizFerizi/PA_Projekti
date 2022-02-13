@@ -1,11 +1,10 @@
 from pip._internal.utils.misc import tabulate
+
+from common.exceptions import NotFoundException
 from routes.Common_Routes import CommonRoutes
 from routes.Image_Route import ImageRoutes
 from routes.Video_Route import VideoRoutes
 
-
-class NotFoundException:
-    pass
 
 
 class Routes:
