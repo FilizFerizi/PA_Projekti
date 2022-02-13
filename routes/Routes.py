@@ -1,4 +1,4 @@
-from pip._internal.utils.misc import tabulate
+from tabulate import tabulate
 
 from common.exceptions import NotFoundException
 from routes.Common_Routes import CommonRoutes
@@ -25,13 +25,13 @@ class Routes:
     def set_current_route(self, route):
         self._current_route = route
 
-    def route_wrapper(self, func, repeat=False, wait_to_continue=False, parameter=0):
+    def route_wrapper(self, func, repeat=False, wait_to_continue=False, action=0):
         def inner_func():
             try:
-                if parameter == 0:
+                if action == 0:
                     func()
-                elif parameter != 0:
-                    func(parameter)
+                elif action != 0:
+                    func(action)
 
                 if wait_to_continue:
                     input("Shtypni cfaredo butoni qe te vazhdoni ")
@@ -53,7 +53,7 @@ class Routes:
                     break
 
                 if start_again_choice == 'p':
-                    return self.route_wrapper(func, repeat)()
+                    return self.route_wrapper(func, repeat,action)()
                 if start_again_choice == 'j':
                     self.navigator()
 
@@ -74,12 +74,13 @@ class Routes:
             route_options[route_index] = r
             route_index += 1
 
-        print("Shkruani idn e sektorit ne te cilin deshironi te vazhdoni")
-        print(tabulate(route_options.items()), )
+        print("Shkruani kodin e sektorit ne te cilin deshironi te vazhdoni")
+        headers = ["Kodi i Sektorit", "Sektori"]
+        print(tabulate(route_options.items(),headers=headers,tablefmt="fancy_grid"), )
 
         while True:
             try:
-                route_input = int(input("Id:"))
+                route_input = int(input("Kodi: "))
                 route = route_list[route_input]
                 print(f"Sektori #{route.upper()} ")
                 if routes.get(route):

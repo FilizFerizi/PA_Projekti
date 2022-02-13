@@ -1,15 +1,13 @@
 import os
 import threading
-from threading import Thread
 from time import sleep, ctime
-
 import youtube_dl
-from pip._internal.utils.misc import tabulate
+from tabulate import tabulate
 
 
 def _download_video(url: str, task_number: int, name: str, path: str):
     ydl_opts = {
-        'outtmpl': os.path.expanduser(path + '/{} -Linku numer {}.%(ext)s'.format(name, task_number), ),
+        'outtmpl': os.path.expanduser(path + '/{} Task {}.%(ext)s'.format(name, task_number), ),
         "index": task_number,
 
     }
@@ -22,7 +20,7 @@ def _download_video(url: str, task_number: int, name: str, path: str):
 
 def _download_thumbnail(url: str, task_number: int, name: str, path: str):
     ydl_opts = {
-        'outtmpl': os.path.expanduser(path + '/{} -Linku numer {}.%(ext)s'.format(name, task_number), ),
+        'outtmpl': os.path.expanduser(path + '/{} Task {}.%(ext)s'.format(name, task_number), ),
         "index": task_number,
         "skip_download": True,
         "writethumbnail": True
@@ -37,7 +35,7 @@ def _download_thumbnail(url: str, task_number: int, name: str, path: str):
 
 def _download_thumbnail_video(url: str, task_number: int, name: str, path: str):
     ydl_opts = {
-        'outtmpl': os.path.expanduser(path + '/{} -Linku numer {}.%(ext)s'.format(name, task_number), ),
+        'outtmpl': os.path.expanduser(path + '/{} Task {}.%(ext)s'.format(name, task_number), ),
         "index": task_number,
         "writethumbnail": True
 
@@ -83,8 +81,8 @@ class VideoController:
                 else:
                     print(f"Shkruaj nje vlere valide per taskun {task_index}")
 
-        headers = ['Indeksi i Taskut', 'URL']
-        print(tabulate(tasks.items()))
+        headers = ["Indeksi i Taskut", "Informatat e dhena"]
+        print(tabulate(tasks.items(), headers=headers,tablefmt="fancy_grid"))
         print("Filloi marrja e videove...")
         sleep(1)
         threads = []
