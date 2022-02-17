@@ -8,7 +8,9 @@ class ImageRoutes(IRoute):
     def __init__(self, _root):
         content_controller = ImageController()
         self._routes = {
-            "Downloadoni dhe zvogelo Foto": _root.route_wrapper(content_controller.create_new, True),
+            "Shkarko Foto": _root.route_wrapper(content_controller.create_new, True,False, 1),
+            "Shkarko foton e zvogeluar": _root.route_wrapper(content_controller.create_new, True,False, 2),
+            "Shkarko dhe zvogelo Foton ": _root.route_wrapper(content_controller.create_new, True,False, 3),
         }
 
     def get(self):
