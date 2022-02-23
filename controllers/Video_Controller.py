@@ -4,6 +4,8 @@ from time import sleep, ctime
 import youtube_dl
 from tabulate import tabulate
 
+from controllers.Controller import Cotroller
+
 
 def _download_video(url: str, task_number: int, name: str, path: str):
     ydl_opts = {
@@ -47,7 +49,7 @@ def _download_thumbnail_video(url: str, task_number: int, name: str, path: str):
               "----------------------------------------END-------------------------------------")
 
 
-class VideoController:
+class VideoController(Cotroller):
     task_number = 0
 
     def create_new(self, action):
@@ -100,7 +102,7 @@ class VideoController:
                                           args=(tasks[i]['url'], i + 1, tasks[i]['name'], path))
                 threads.append(thread)
 
-            print("Shkarkimi filloi për linkun ", i + 1, " koha: ", ctime(), )
+            
             threads[i].start()
 
         for i in range(0, task_number):

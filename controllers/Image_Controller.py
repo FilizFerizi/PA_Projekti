@@ -4,6 +4,7 @@ import multiprocessing
 from multiprocessing import pool
 import os
 from pathlib import Path
+from random import random
 from time import sleep,ctime
 import time
 from turtle import width
@@ -18,16 +19,22 @@ from functools import partial
 from multiprocessing.dummy import Pool, Process
 from ast import arg
 
+from controllers.Controller import Cotroller
+
 
 def download_multi(url,name, path):
          
     response = requests.get(url, stream=True)
     file_name = url.split('/')[-1]
     filename=name
+    r=random()
     file = open(path+filename+".jpg", "wb")
     file.write(response.content)
+
     file.close()
     print(file_name, "DONE!" +" MULTIPROCCESING")
+    print("Shkarkimi për linkun  përfundoi në", ctime())
+    
     
 def thumbnail(url,name,resize,resizeName, path):
 
@@ -48,10 +55,11 @@ def thumbnail(url,name,resize,resizeName, path):
       
         img=image.resize((int(image.width/width),int(image.height/h)))
         nameR=resizeName
-        
-        img.save(f"{path}{imageName}{nameR}.jpg")
+        r=random()
+        img.save(f"{path}{imageName}{nameR}{r}.jpg")
         print(img.width,img.height)
         img.show()
+        print("Shkarkimi për linkun  përfundoi në", ctime())
 
 def thumb(name,resize,resizeName, path):
 
@@ -64,11 +72,12 @@ def thumb(name,resize,resizeName, path):
         imageName=resizeName
         print(imageName)
         # //mi cek sa her don mi zvoglu foton
-        img=im.resize((int(im.width/width),int(im.height/h)))
+        img=im.resize((int(im.width/width),int(im.height/width)))
         img.save(f"{path}{imageName}.jpg")
+        print("Shkarkimi për linkun  përfundoi në", ctime())
 
 
-class ImageController:
+class ImageController(Cotroller):
     task_number = 0
 
     def create_new(self, action):
@@ -106,9 +115,7 @@ class ImageController:
                     resize_number= int(input(f"Shkruaj sa here deshironi ta zvogeloni foton: "))
                     resize_name=input(f"shrkuaj emrin e fotos se zvogeluar")
                
-                    
-                
-                if iamges_name:
+                if images_link and iamges_name:
                     dics[task_index] = {
                         "url": images_link,
                         "name": iamges_name,
@@ -120,39 +127,39 @@ class ImageController:
                 else:
                     print(f"Shkruaj nje vlere valide per taskun {task_index}")
 
-        headers = ['Indeksi i Taskut', 'URL']
-        print(tabulate(dics.items()))
+        headers = ["Indeksi i Taskut", "Informatat e dhena"]
+        print(tabulate(dics.items(), headers=headers,tablefmt="fancy_grid"))
         print("Filloi marrja e fotove...")
        
         processes=[]
         for i in range(0, task_number):
             if action == 1:
-                print(i)
-                print("MULTIPROCESING PROCESSES")
-                tic=time.time()
+                # print(i)
+                # print("MULTIPROCESING PROCESSES")
                 p=multiprocessing.Process(target=download_multi, args=(dics[i]['url'], dics[i]['name'],path))
             
                 processes.append(p)
-                toc=time.time()
+                
                 
             elif action == 2:
-              
-                tic=time.time()
                 p=multiprocessing.Process(target=thumb, args=(dics[i]['name'],dics[i]['resize'],dics[i]['resizeName'],path))
                 processes.append(p)
-                toc=time.time()
                 
-            elif action == 3:  
-                tic=time.time()    
+                
+            elif action == 3:     
                 p=multiprocessing.Process(target=thumbnail, args=(dics[i]['url'], dics[i]['name'],dics[i]['resize'],dics[i]['resizeName'],path))
                 processes.append(p)
-                toc=time.time()
                 
-            print("Shkarkimi filloi për linkun ", i + 1, " koha: ", ctime(), )
+                
+                
+            
             # print(toc-tic)
+            print("Shkarkimi filloi për linkun ", i + 1, " koha: ", ctime(), )
             processes[i].start()   
+            
         for i in range(0, task_number):
             processes[i].join()
+            print("Shkarkimi filloi për linkun " + str(toc-tic))
         # for process in processes:
         #     process.join()
         print("Ruajtja e Fotove perfundoi.")       
